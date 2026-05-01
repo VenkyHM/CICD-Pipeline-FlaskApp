@@ -10,6 +10,16 @@ permissions:
 jobs:
 
 # ----------- CI -----------  
+  name: Flask CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, staging]
+
+permissions:
+  contents: read
+
+jobs:
   ci:
     runs-on: ubuntu-latest
 
@@ -26,43 +36,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install netcat (for Mongo check)
-        run: sudo apt-get update && sudo apt-get install -y netcat
-
-      - name: Wait for MongoDB
-        run: |
-          for i in {1..10}; do
-            nc -z localhost 27017 && echo "MongoDB is up" && exit 0
-            echo "Waiting for MongoDB..."
-            sleep 2
-          done
-          echo "MongoDB failed to start"
-          exit 1
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          # Install project dependencies
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Install CI tools separately
           pip install pytest pylint bandit
 
-      - name: Lint check
-        run: pylint app.py || true
+      - name: Lint with pylint
+        run: |
+          pylint app.py || true
 
-      - name: Security scan
-        run: bandit -r . -s B101,B104 || true
+      - name: Security scan with bandit
+        run: |
+          bandit -r . -s B104,B101
 
       - name: Run tests
         run: |
-          if [ -d "tests" ]; then
-            pytest -v
-          else
-            echo "No tests found, skipping..."
-          fi
+          pytest -v
+
 
 
 # ----------- STAGING -----------  
