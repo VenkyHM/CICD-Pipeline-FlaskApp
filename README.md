@@ -9,5 +9,11 @@
 
 <img width="1911" height="1075" alt="image" src="https://github.com/user-attachments/assets/6d35eb8c-2ab0-4ca6-bb3a-209595260ce5" />
 
+##Step-2 - Verification pytest on local
+---
+<img width="1482" height="708" alt="image" src="https://github.com/user-attachments/assets/5ae5fad3-e7f5-4d36-81c8-6bcccf6c4149" />
+
+## Step-3 Branching set-up on git-hub
+
 
 
