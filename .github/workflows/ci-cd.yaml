@@ -30,7 +30,8 @@ jobs:
           - 27017:27017
 
     env:
-      MONGO_URI: mongodb://localhost:27017/testdb
+      MONGO_URI: mongodb+srv://venkat_travel_memory:V4vmib0EkunExfwy@cluster0.9wjyydp.mongodb.net/students?retryWrites=true&w=majority
+
 
     steps:
       - name: Checkout code
